@@ -9,6 +9,8 @@ Assignments on Audio Signal Processing for Music Applications
 
 ## Week 3
 
+### Programming Assignment: [Fourier Properties](https://github.com/pvardanis/audio-signal-processing-for-music-applications/tree/master/A3)
+
 ## Week 4
 
 ## Week 5
