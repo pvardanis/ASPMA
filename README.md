@@ -23,4 +23,4 @@ Assignments on Audio Signal Processing for Music Applications
 
 ## Week 9
 
-**Note**: I share my code with others for learning purposes only and to come up with different solutions.
+**Note**: I share my code with others for learning purposes only.
