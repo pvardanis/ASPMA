@@ -1,4 +1,4 @@
-# Audio Signal Processing for Music Applications by Courser
+# Audio Signal Processing for Music Applications by Coursera
 Assignments on Audio Signal Processing for Music Applications
 
 ## Week 1
