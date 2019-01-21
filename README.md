@@ -1,5 +1,6 @@
 # Audio Signal Processing for Music Applications by Coursera
 Assignments for Audio Signal Processing for Music Applications
+
 **Note**: I share my code with others for learning purposes only.
 
 ## Week 1
