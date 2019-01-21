@@ -1,5 +1,6 @@
 # Audio Signal Processing for Music Applications by Coursera
 Assignments for Audio Signal Processing for Music Applications
+**Note**: I share my code with others for learning purposes only.
 
 ## Week 1
 ### Programming Assignment: [Python and sound](https://github.com/pvardanis/audio-signal-processing-for-music-applications/tree/master/A1)
