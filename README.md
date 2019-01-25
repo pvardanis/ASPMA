@@ -16,6 +16,7 @@ Assignments for "Audio Signal Processing for Music Applications".
 ### Programming Assignment: [Short-time Fourier Transform (STFT)](https://github.com/pvardanis/audio-signal-processing-for-music-applications/tree/master/A4)
 
 ## Week 5
+### Programming Assignment: [Sinusoidal model](https://github.com/pvardanis/audio-signal-processing-for-music-applications/tree/master/A5)
 
 ## Week 6
 
