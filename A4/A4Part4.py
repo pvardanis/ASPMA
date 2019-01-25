@@ -68,20 +68,84 @@ piano notes (See figure in the accompanying pdf). You will notice exactly 6 peak
 """
 
 def computeODF(inputFile, window, M, N, H):
-    """
-    Inputs:
-            inputFile (string): input sound file (monophonic with sampling rate of 44100)
-            window (string): analysis window type (choice of rectangular, triangular, hanning, hamming, 
-                blackman, blackmanharris)
-            M (integer): analysis window size (odd integer value)
-            N (integer): fft size (power of two, bigger or equal than than M)
-            H (integer): hop size for the STFT computation
-    Output:
-            The function should return a numpy array with two columns, where the first column is the ODF 
-            computed on the low frequency band and the second column is the ODF computed on the high 
-            frequency band.
-            ODF[:,0]: ODF computed in band 0 < f < 3000 Hz 
-            ODF[:,1]: ODF computed in band 3000 < f < 10000 Hz
-    """
-    
-    ### your code here
+	"""
+	Inputs:
+			inputFile (string): input sound file (monophonic with sampling rate of 44100)
+			window (string): analysis window type (choice of rectangular, triangular, hanning, hamming, 
+				blackman, blackmanharris)
+			M (integer): analysis window size (odd integer value)
+			N (integer): fft size (power of two, bigger or equal than than M)
+			H (integer): hop size for the STFT computation
+	Output:
+			The function should return a numpy array with two columns, where the first column is the ODF 
+			computed on the low frequency band and the second column is the ODF computed on the high 
+			frequency band.
+			ODF[:,0]: ODF computed in band 0 < f < 3000 Hz 
+			ODF[:,1]: ODF computed in band 3000 < f < 10000 Hz
+	"""
+	
+	### your code here
+
+	(fs, x) = UF.wavread(inputFile) # get sample rate and input signal
+
+	if M%2==0:
+		w = get_window(window, M, fftbins=True) # get window type
+	else:
+		w = get_window(window, M, fftbins=False) # get window type
+
+	xmX = stft.stftAnal(x, w, N, H) # frame sequence of the spectrogram
+	xmX = xmX[0]
+ 	
+	xmX = 10.0**(xmX/20.0) # conversion from dB to linear
+	engEnv = np.zeros((xmX.shape[0],2))
+
+	for index in range(len(xmX)):
+		k_bins = np.asarray(range(xmX[index].size)) # create a list containing bin indexes
+		f_bins = k_bins*fs/N
+		low_index = np.where((0<f_bins)&(f_bins<3000)) # find bins corresponding in band 0 < f < 3000
+		low_index = low_index[0] # get it out of tuple
+		high_index = np.where((3000<f_bins)&(f_bins<10000)) # find bins corresponding in band 3000 < f < 10000		
+		high_index = high_index[0]
+		engEnv[index][0] = sum(xmX[index][low_index]**2)
+		engEnv[index][1] = sum(xmX[index][high_index]**2)
+		
+	engEnv_dB = 10*np.log10(engEnv)
+	
+	ODF = np.zeros((len(engEnv_dB),2))
+	ODF[0] = 0
+	for index in range(1,len(engEnv_dB)):
+		ODF[index] = engEnv_dB[index] - engEnv_dB[index-1]
+
+	ODFlow = ODF[:,0]
+	ODFhigh = ODF[:,1]
+
+	plt.figure(1, figsize=(9.5,6))
+
+	#spectrogram
+	plt.subplot(211)
+	xmX_log = 10*np.log10(xmX)
+	numFrames = int(xmX_log[:,0].size)
+	frmTime = H*np.arange(numFrames)/float(fs)                             
+	binFreq = np.arange(N/2+1)*float(fs)/N                         
+	plt.pcolormesh(frmTime, binFreq, np.transpose(xmX_log))
+	plt.title('mX (piano.wav), M=1001, N=1024, H=256')
+	plt.autoscale(tight=True)
+	plt.title('{} M={}, N={}, H={}'.format(inputFile,M,N,H))
+	plt.autoscale(tight=True)
+
+	#Onset Detection
+	plt.subplot(212)
+	plt.ylim(bottom=0,top=20)
+	plt.xlim([0,3.85])
+
+	plt.plot(frmTime, ODFlow, 'b')
+	plt.plot(frmTime, ODFhigh, 'g')
+	plt.legend(['ODF Low','ODF High'])
+	plt.xlabel('time (sec)')
+	plt.ylabel('Magnitude (dB)')
+	#plt.autoscale(tight=True)
+
+	plt.tight_layout()
+	plt.show()
+
+	return ODFlow, ODFhigh, low_index, high_index
