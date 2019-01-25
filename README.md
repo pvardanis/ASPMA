@@ -1,5 +1,5 @@
 # Audio Signal Processing for Music Applications by Coursera
-Assignments for Audio Signal Processing for Music Applications
+Assignments for "Audio Signal Processing for Music Applications".
 
 **Note**: I share my code with others for learning purposes only.
 
@@ -13,6 +13,7 @@ Assignments for Audio Signal Processing for Music Applications
 ### Programming Assignment: [Fourier Properties](https://github.com/pvardanis/audio-signal-processing-for-music-applications/tree/master/A3)
 
 ## Week 4
+### Programming Assignment: [Short-time Fourier Transform (STFT)](https://github.com/pvardanis/audio-signal-processing-for-music-applications/tree/master/A4)
 
 ## Week 5
 
